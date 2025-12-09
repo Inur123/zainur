@@ -12,7 +12,7 @@ class MasterItemsController extends Controller
         return view('master_items.index.index');
     }
 
-    public function search(Request $request)
+     public function search(Request $request)
     {
         $kode = $request->kode;
         $nama = $request->nama;
@@ -23,16 +23,24 @@ class MasterItemsController extends Controller
 
         if (!empty($kode)) $data_search = $data_search->where('kode', $kode);
         if (!empty($nama)) $data_search = $data_search->where('nama', 'LIKE', '%' . $nama . '%');
-        if (!empty($hargamin)) $data_search = $data_search->where('harga_beli', '>=', $hargamin)->where('harga_beli', '<=', $hargamax);
+
+        // Perbaikan filter harga
+        if (!empty($hargamin) && !empty($hargamax)) {
+            $data_search = $data_search->whereBetween('harga_beli', [$hargamin, $hargamax]);
+        } elseif (!empty($hargamin)) {
+            $data_search = $data_search->where('harga_beli', '>=', $hargamin);
+        } elseif (!empty($hargamax)) {
+            $data_search = $data_search->where('harga_beli', '<=', $hargamax);
+        }
 
         $data_search = $data_search->select('kode', 'nama', 'jenis', 'harga_beli', 'laba', 'supplier')->orderBy('id')->get();
-
 
         return json_encode([
             'status' => 200,
             'data' => $data_search
         ]);
     }
+
 
     public function formView($method, $id = 0)
     {

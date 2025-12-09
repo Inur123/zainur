@@ -21,7 +21,7 @@
     })
 
     function getData(){
-        
+
         $('#loading-filter').show();
         var dataTableObj = $('#table').DataTable();
         var filter_kode = $('#filter-kode').val()
@@ -47,14 +47,14 @@
 
                     var html = `<a href="{{url('master-items/view/')}}/` + kode + `" class="btn btn-primary">View</a>`
 
-                    $.each(item, function(obj_name, obj_value) {
-                        if (obj_name == 'laba') return false;
-                        array_temp.push(obj_value)
-                    })
-                    array_temp.push(harga_jual)
-                    array_temp.push(item.supplier)
-                    array_temp.push(html)
-
+                    // Menambahkan data sesuai urutan kolom tabel
+                    array_temp.push(kode) // Kode
+                    array_temp.push(item.nama) // Nama
+                    array_temp.push(item.jenis) // Jenis
+                    array_temp.push(item.harga_beli) // Harga Beli
+                    array_temp.push(harga_jual) // Harga Jual
+                    array_temp.push(item.supplier) // Supplier
+                    array_temp.push(html) // View button
 
                     dataTableObj.row.add(array_temp).draw(true);
                 });
