@@ -47,14 +47,23 @@
 
                     var html = `<a href="{{url('master-items/view/')}}/` + kode + `" class="btn btn-primary">View</a>`
 
-                    // Menambahkan data sesuai urutan kolom tabel
-                    array_temp.push(kode) // Kode
-                    array_temp.push(item.nama) // Nama
-                    array_temp.push(item.jenis) // Jenis
-                    array_temp.push(item.harga_beli) // Harga Beli
-                    array_temp.push(harga_jual) // Harga Jual
-                    array_temp.push(item.supplier) // Supplier
-                    array_temp.push(html) // View button
+
+                    var fotoHtml = '';
+                    if (item.foto) {
+                        fotoHtml = `<img src="{{asset('storage/')}}/` + item.foto + `" alt="foto" style="width: 50px; height: 50px; object-fit: cover;">`;
+                    } else {
+                        fotoHtml = '<span class="text-muted">No Image</span>';
+                    }
+
+
+                    array_temp.push(fotoHtml)
+                    array_temp.push(kode)
+                    array_temp.push(item.nama)
+                    array_temp.push(item.jenis)
+                    array_temp.push(item.harga_beli)
+                    array_temp.push(harga_jual)
+                    array_temp.push(item.supplier)
+                    array_temp.push(html)
 
                     dataTableObj.row.add(array_temp).draw(true);
                 });

@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     @csrf
     @if($method == 'edit')
     <div class="form-group">
@@ -46,6 +46,34 @@
             <optio @if($selected == 'Umum') selected @endif>Umum</option>
             <optio @if($selected == 'ATK') selected @endif>ATK</option>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label>Kategori</label>
+        <select class="form-control" name="kategoris[]" multiple size="5">
+            @foreach($kategoris as $kategori)
+                <option value="{{ $kategori->id }}"
+                    @if($method == 'edit' && $item->kategoris->contains($kategori->id)) selected @endif>
+                    {{ $kategori->kode }} - {{ $kategori->nama }}
+                </option>
+            @endforeach
+        </select>
+        <small class="form-text text-muted">Tahan Ctrl (Cmd di Mac) untuk memilih lebih dari satu kategori</small>
+    </div>
+
+     <div class="form-group">
+        <label for="foto">Foto</label>
+        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+        @if($method == 'edit' && isset($item->foto) && $item->foto)
+            <div class="mt-2">
+                <p class="text-muted mb-1">Foto saat ini:</p>
+                <img src="{{ asset('storage/' . $item->foto) }}" alt="Current foto" style="max-width: 200px; max-height: 200px; object-fit: cover; border: 1px solid #ddd; padding: 5px;">
+                <p class="text-info mt-1"><small>Upload foto baru untuk menggantinya</small></p>
+            </div>
+        @endif
+        @error('foto')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
     </div>
 
     <button class="btn btn-primary mt-3">Submit</button>

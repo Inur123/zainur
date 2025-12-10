@@ -27,5 +27,8 @@
         </div>
     </div>
     <button class="btn btn-primary mt-1 btn-get-data">Filter</button>
+    <a href="{{url('master-items/export-excel')}}" class="btn btn-success mt-1">
+        <i class="bi bi-file-earmark-excel"></i> Export Excel
+    </a>
     <span id="loading-filter" style="display: none;">Loading...</span>
 </div>
